@@ -3,7 +3,7 @@ from tkinter import ttk
 import logging
 from utils.settings import FileManager
 from tkinter import END
-file_manager = FileManager([], [])
+file_manager = FileManager(set(), set(), "")
 from utils.find_suffixes import find_all_suffixes
 from utils.move import move
 
@@ -31,7 +31,7 @@ def swap():
 
 
 find_suffixes = tk.Button(buttonframe, text="Find file suffixes in file folder", command=lambda:
-                            find_all_suffixes(file_manager, whitelist, find_suffixes, swap_lists))
+                            find_all_suffixes(file_manager, whitelist, blacklist, find_suffixes, swap_lists))
 find_suffixes.grid(column=0, row=0, sticky=tk.NSEW)
 
 whitelist_label = tk.Label(mainframe, text="Whitelist:")
