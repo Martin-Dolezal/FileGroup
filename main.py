@@ -52,6 +52,10 @@ swap_lists.grid(column=0, row=5)
 move_button = tk.Button(buttonframe, text="Move files to folders",
                         command=lambda: move(file_manager, whitelist, blacklist))
 move_button.grid(column=1, row=0, columnspan=6, sticky=tk.NSEW)
+
+group_files_by_type_button = tk.Button(buttonframe, text="Group files by type",
+                                       command=lambda: group_files(file_manager))
+group_files_by_type_button.grid(column=0, row=1)
 allow: bool = True
 
 window.mainloop()
