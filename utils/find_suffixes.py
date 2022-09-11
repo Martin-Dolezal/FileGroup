@@ -1,54 +1,35 @@
+import logging
 import tkinter as tk
 import tkinter.filedialog
-from tkinter import END
-from os import replace
 from pathlib import Path
-from time import strftime
-import logging
+from tkinter import END
 
 
-def find_all_suffixes(file_manager, whitelist, blacklist, find_suffixes, swap_lists):
-    """
-    vstupnipromenna = Path(entry.get())
-    if os.path.exists(vstupnipromenna):
-        cesta = vstupnipromenna
-    else:
-        return"""
+def find_all_suffixes(file_manager, whitelist, blacklist, swap_lists):
     path = Path(tk.filedialog.askdirectory())
     file_manager.path = str(path)
     print(path)
     suffixes = set()
     allowed_suffixes = []
-    zaznam = ""
+    file_record = ""
     for child in path.iterdir():
         if (child.is_file()) and "zaznam programu FileSort" not in str(child) and ".py" not in str(child):
-            zaznam += str(child)
+            file_record += str(child)
             logging.info(str(child))
             if child.suffix:
                 suffixes.add(child.suffix)
-            slozka = f"{str(path)}\\{child.suffix}"
-            cestaslozky = Path(slozka)
+            directory_path = Path(f"{str(path)}\\{child.suffix}")
             try:
-                if not (cestaslozky.exists()):
-                    cestaslozky.mkdir()
+                if not (directory_path.exists()):
+                    directory_path.mkdir()
             except Exception:
                 print(Exception)
-            cestanovehosouboru = str(Path(path)) + "\\" + str(child.suffix) + "\\" + str(child.stem)
-            print(cestanovehosouboru)
+            new_file_path = str(Path(path)) + "\\" + str(child.suffix) + "\\" + str(child.stem)
+            print(new_file_path)
             print(allowed_suffixes)
-            file_manager.file_paths.add(cestanovehosouboru + child.suffix)
+            file_manager.file_paths.add(new_file_path + child.suffix)
             file_manager.original_files.add(child)
-            #if child.suffix in allowed_suffixes:
-            #    zaznam += "\n -> " + str(cestanovehosouboru) + str(child.suffix) + "\n\n"
-            #    replace(str(child), str(cestanovehosouboru) + str(child.suffix))
-
-    zaznamovysoubor = f'{str(path)}\\zaznam programu FileSort - {str(strftime("%Y-%m-%d, %H-%M-%S"))}.txt'
-    try:
-        with open(zaznamovysoubor, "wt") as file:
-            file.write(zaznam)
-            file.close()
-    except Exception:
-        print(Exception)
+    whitelist.delete("1.0", END)
     whitelist.insert(tk.INSERT, ";".join(suffixes))
 
     file_manager.whitelist = suffixes
